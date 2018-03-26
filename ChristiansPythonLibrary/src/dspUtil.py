@@ -681,7 +681,7 @@ def calculateRMS(data, convertToDb = False):
 	@return a scalar containing either an RMS or a dB value
 	"""
 	
-	"""
+	
 	# obsolete code, keep for now, just to be sure...
 	tmp = 0
 	size = len(data)
@@ -697,33 +697,33 @@ def calculateRMS(data, convertToDb = False):
 	if convertToDb:
 		return rmsToDb(math.sqrt(tmp))
 	return math.sqrt(tmp)
-	"""
+	
 	
 	# this is the new "speedy" implementation using weave
-	code = """
-	float tmp = 0;
-	int i;
-	for (i = 0; i < size; i++) {
-		tmp += data[i];
-	}
-	float mean = tmp / (float) size;
-	//printf ("mean: %f", mean);
-	tmp = 0;
-	for (i = 0; i < size; i++) {
-		float tmp2 = data[i] - mean;
-		tmp += tmp2 * tmp2;
-	}
-	tmp /= (float)size;
-	return_val = sqrt(tmp);
-	"""
+# 	code = """
+# 	float tmp = 0;
+# 	int i;
+# 	for (i = 0; i < size; i++) {
+# 		tmp += data[i];
+# 	}
+# 	float mean = tmp / (float) size;
+# 	//printf ("mean: %f", mean);
+# 	tmp = 0;
+# 	for (i = 0; i < size; i++) {
+# 		float tmp2 = data[i] - mean;
+# 		tmp += tmp2 * tmp2;
+# 	}
+# 	tmp /= (float)size;
+# 	return_val = sqrt(tmp);
+# 	"""
 	
-	support = "#include <math.h>"
-	size = len(data)
-	RMS = weave.inline(code,['data', 'size'], verbose=0, support_code = support)
+# 	support = "#include <math.h>"
+# 	size = len(data)
+# 	RMS = weave.inline(code,['data', 'size'], verbose=0, support_code = support)
 	
-	if convertToDb:
-		return rmsToDb(RMS)
-	return RMS
+# 	if convertToDb:
+# 		return rmsToDb(RMS)
+# 	return RMS
 	
 	
 ######################################################################
@@ -1284,9 +1284,8 @@ def calculateF0once(
 		dataTmp *= fftWindow
 	
 	# autocorrelation
-	result = numpy.correlate(dataTmp, dataTmp, mode = 'full', \
-		old_behavior = False)
-	r = result[result.size/2:] / float(len(data))
+	result = numpy.correlate(dataTmp, dataTmp, mode = 'full')
+	r = result[int(result.size/2):] / float(len(data))
 	
 	
 	# find peak in AC 
