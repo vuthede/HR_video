@@ -1299,7 +1299,7 @@ def calculateF0once(
 		#print("freq: ", freq)
 		return freq
 	except Exception as e:
-		print (e)
+		#print (e)
 		return 0
 	
 ######################################################################
