@@ -1290,13 +1290,16 @@ def calculateF0once(
 	
 	# find peak in AC 
 	try:
-		xOfMax, valMax = generalUtility.findArrayMaximum(r, fs / Fmax, \
-			fs / Fmin)
+		xOfMax, valMax = generalUtility.findArrayMaximum(r, int(fs / Fmax), \
+			int(fs / Fmin))
+		#print("xOfMax, valMax: ", xOfMax, ", ", valMax)
 		valMax /= max(r)
+		#print("max(r), valMax: ", max(r), ", ", valMax)
 		freq = fs / xOfMax
+		#print("freq: ", freq)
 		return freq
 	except Exception as e:
-		#print e
+		print (e)
 		return 0
 	
 ######################################################################
